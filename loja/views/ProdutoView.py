@@ -12,7 +12,7 @@ def list_produto_view(request, id=None):
     fabricante = request.GET.get("fabricante")
     dias = request.GET.get("dias")
     produtos = Produto.objects.all()
-    print(produtos)
+
     if dias is not None:
         now = timezone.now()
         now = now - timedelta(days = int(dias))
@@ -27,7 +27,7 @@ def list_produto_view(request, id=None):
         produtos = produtos.filter(categoria__Categoria=categoria)
     if fabricante is not None:
         produtos = produtos.filter(fabricante__Fabricante=fabricante)
-
     if id is None:
         produtos = produtos.filter(id=id)
+    print(produtos)
     return HttpResponse('<h1>Produto de id %s!</h1>' % id)
