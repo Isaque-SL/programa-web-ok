@@ -84,8 +84,10 @@ def details_produto_view(request, id=None):
     if id is not None:
         produtos = produtos.filter(id=id)
     produto = produtos.first()
+    Fabricantes = Fabricante.objects.all()
+    Categorias = Categoria.objects.all()
     print(produto)
-    context = {'produto' : produto}
+    context = {'produto' : produto, 'fabricantes' : Fabricantes, 'categorias' : Categorias }
     return render(request, template_name='produto/produto-details.html', context=context, status=200)
 
 def delete_produto_view(request, id=None):
@@ -94,9 +96,11 @@ def delete_produto_view(request, id=None):
     if id is not None:
         produtos = produtos.filter(id=id)
     produto = produtos.first()
+    Fabricantes = Fabricante.objects.all()
+    Categorias = Categoria.objects.all()
     print(produto)
-    context = {'produto': produto}
-    return render(request, template_name='produto/produto-delete.html', context=context,status=200)
+    context = {'produto' : produto, 'fabricantes' : Fabricantes, 'categorias' : Categorias }
+    return render(request, template_name='produto/produto-details.html', context=context, status=200)
 
 def delete_produto_postback(request, id=None):
     if request.method == 'POST':
