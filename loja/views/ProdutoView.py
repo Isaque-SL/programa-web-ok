@@ -89,11 +89,13 @@ def delete_produto_view(request, id=None):
         produtos = produtos.filter(id=id)
     produto = produtos.first()
     print(produto)
+    print(id)
     context = {'produto': produto}
     return render(request, template_name='produto/produto-delete.html', context=context,status=200)
 
 def delete_produto_postback(request, id=None):
     if request.method == 'POST':
+        # Salva dados editados
         id = request.POST.get("id")
         produto = request.POST.get("Produto")
         print("postback-delete")
@@ -103,7 +105,7 @@ def delete_produto_postback(request, id=None):
             print("Produto %s excluido com sucesso" % produto)
         except Exception as e:
             print("Erro salvando edição de produto: %s" % e)
-            return redirect("/produto")
+    return redirect("/produto")
         
 def create_produto_view(request, id=None):
     if request.method == 'POST':
