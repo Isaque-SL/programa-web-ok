@@ -58,12 +58,14 @@ def edit_produto_postback(request, id=None):
         msgPromocao = request.POST.get("msgPromocao")
         categoria = request.POST.get("CategoriaFk")
         fabricante = request.POST.get("FabricanteFk")
+        image = request.POST.get("image")
         print("postback")
         print(id)
         print(produto)
         print(destaque)
         print(promocao)
         print(msgPromocao)
+        print(image)
         try:
             obj_produto = Produto.objects.filter(id=id).first()
             obj_produto.Produto = produto
@@ -71,6 +73,15 @@ def edit_produto_postback(request, id=None):
             obj_produto.promocao = (promocao is not None)
             obj_produto.fabricante = Fabricante.objects.filter(id=fabricante).first()
             obj_produto.categoria = Categoria.objects.filter(id=categoria).first()
+            if request.FILES is not None:
+                num_files = len(request.FILES.getlist('image'))
+                if num_files > 0:
+                    imagefile = request.FILES['image']
+                    print(imagefile)
+                    fs = FileSystemStorage()
+                    filename = fs.save(imagefile.name, imagefile)
+                    if (filename is not None) and (filename != ""):
+                        obj_produto.image = filename
             if msgPromocao is not None:
                 obj_produto.msgPromocao = msgPromocao
             obj_produto.save()
@@ -93,25 +104,21 @@ def details_produto_view(request, id=None):
 def delete_produto_view(request, id=None):
     # Processa o evento GET gerado pela action
     produtos = Produto.objects.all()
+    print(f"id (delete_produto_view 1): {id}")
     if id is not None:
         produtos = produtos.filter(id=id)
     produto = produtos.first()
     Fabricantes = Fabricante.objects.all()
     Categorias = Categoria.objects.all()
-    print(produto)
-<<<<<<< HEAD
-    print(id)
-    context = {'produto': produto}
-    return render(request, template_name='produto/produto-delete.html', context=context,status=200)
-=======
+    print(f"Produto: {produto}")
+    print(f"id (delete_produto_view 2): {id}")
     context = {'produto' : produto, 'fabricantes' : Fabricantes, 'categorias' : Categorias }
-    return render(request, template_name='produto/produto-details.html', context=context, status=200)
->>>>>>> c8ecbac58f07c7092fc92110ec21268917de2dde
+    return render(request, template_name='produto/produto-delete.html', context=context, status=200)
 
 def delete_produto_postback(request, id=None):
     if request.method == 'POST':
-        # Salva dados editados
         id = request.POST.get("id")
+        print(f"id (delete_produto_postback): {id}")
         produto = request.POST.get("Produto")
         print("postback-delete")
         print(id)

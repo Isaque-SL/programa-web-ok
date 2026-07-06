@@ -43,7 +43,7 @@
             </div>
             <div class="row">
                 <label for="CategoriaFk" class="col-md-2" >Categorias</label>
-                <select name="CategoriaFk">
+                <select name="CategoriaFk" disabled>
                     <option value="-1">-----</option>
                     {% for cate in categorias %}
                         {% if produto.categoria_id == cate.id %}
@@ -56,7 +56,7 @@
             </div>
             <div class="row">
                 <label for="FabricanteFk" class="col-md-2" >Fabricantes</label>
-                <select name="FabricanteFk">
+                <select name="FabricanteFk" disabled>
                     <option value="-1">-----</option>
                     {% for fabri in fabricantes %}
                         {% if produto.fabricante_id == fabri.id %}
