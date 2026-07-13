@@ -5,19 +5,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
+    # This migration was split into two (0003_produto_image and
+    # 0004_alter_produto_msgpromocao). Keep a noop migration here so
+    # Django won't try to re-apply the same operations and to preserve
+    # historical filenames.
     dependencies = [
-        ('loja', '0002_categoria_produto'),
+        ('loja', '0004_usuario'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='produto',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to=''),
-        ),
-        migrations.AlterField(
-            model_name='produto',
-            name='msgPromocao',
-            field=models.CharField(blank=True, max_length=100, null=True),
-        ),
-    ]
+    operations = []
