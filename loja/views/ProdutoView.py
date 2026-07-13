@@ -10,32 +10,6 @@ def list_produto_view(request, id=None):
         'produtos': produtos
     }
     return render(request, template_name='produto/produto.html', context=context, status=200)
-    # produto = request.GET.get("produto")
-    # destaque = request.GET.get("destaque")
-    # promocao = request.GET.get("promocao")
-    # categoria = request.GET.get("categoria")
-    # fabricante = request.GET.get("fabricante")
-    # dias = request.GET.get("dias")
-    # produtos = Produto.objects.all()
-
-    # if dias is not None:
-    #     now = timezone.now()
-    #     now = now - timedelta(days = int(dias))
-    #     produtos = produtos.filter(criado_em__gte=now)
-    # if destaque is not None:
-    #     produtos = produtos.filter(destaque=destaque)
-    # if produto is not None:
-    #     produtos = produtos.filter(Produto=produto)
-    # if promocao is not None:
-    #     produtos = produtos.filter(promocao=promocao)
-    # if categoria is not None:
-    #     produtos = produtos.filter(categoria__Categoria=categoria)
-    # if fabricante is not None:
-    #     produtos = produtos.filter(fabricante__Fabricante=fabricante)
-    # print(produtos)
-    # if id is None:
-    #     produtos = produtos.filter(id=id)
-    # return HttpResponse('<h1>Produto de id %s!</h1>' % id)
 
 def edit_produto_view(request, id=None):
     produtos = Produto.objects.all()
@@ -135,6 +109,8 @@ def create_produto_view(request, id=None):
         destaque = request.POST.get("destaque")
         promocao = request.POST.get("promocao")
         msgPromocao = request.POST.get("msgPromocao")
+        categoria = request.POST.get("CategoriaFk")
+        fabricante = request.POST.get("FabricanteFk")
         preco = request.POST.get("preco")
         image = request.POST.get("image")
         print("postback-create")
@@ -142,6 +118,8 @@ def create_produto_view(request, id=None):
         print(destaque)
         print(promocao)
         print(msgPromocao)
+        print(categoria)
+        print(fabricante)
         print(preco)
         print(image)
         try:
@@ -149,6 +127,8 @@ def create_produto_view(request, id=None):
             obj_produto.Produto = produto
             obj_produto.destaque = (destaque is not None)
             obj_produto.promocao = (promocao is not None)
+            obj_produto.fabricante = Fabricante.objects.filter(id=fabricante).first()
+            obj_produto.categoria = Categoria.objects.filter(id=categoria).first()
             if msgPromocao is not None:
                 obj_produto.msgPromocao = msgPromocao
             obj_produto.preco = 0
@@ -171,4 +151,7 @@ def create_produto_view(request, id=None):
         except Exception as e:
             print("Erro inserindo produto: %s" % e)
         return redirect("/produto")
-    return render(request, template_name='produto/produto-create.html', status=200)
+    Fabricantes = Fabricante.objects.all()
+    Categorias = Categoria.objects.all()
+    context = { 'fabricantes': Fabricantes, 'categorias': Categorias, 'produto': None }
+    return render(request, template_name='produto/produto-create.html', context=context, status=200)
