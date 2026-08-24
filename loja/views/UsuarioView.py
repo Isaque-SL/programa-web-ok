@@ -12,7 +12,7 @@ def edit_usuario_view(request):
     emailUnused = True
     message = None
     if request.method == 'POST':
-        usuarioForm = UserUsuarioForm(request.POST, instance=usuario)
+        usuarioForm = UserUsuarioForm(request.POST, instance=usuario, current_user=request.user)
         userForm = UserForm(request.POST, instance=request.user)
         # Verifica se o e-mail que o usuário está tentando utilizar
         # em seu perfil já existe em outro perfil
