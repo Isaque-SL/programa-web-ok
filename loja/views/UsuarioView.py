@@ -8,7 +8,7 @@ def list_usuario_view(request, id=None):
     return render(request, template_name='usuario/usuario.html', context=context, status=200)
 
 def edit_usuario_view(request):
-    usuario = get_object_or_404(Usuario, user=request.user)
+    usuario = Usuario.objects.filter(user=request.user).first()
     emailUnused = True
     message = None
     if request.method == 'POST':

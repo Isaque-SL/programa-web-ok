@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Criar Fabricante{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block content %}
+    <div id="content">
+        <div class="container">
+            <form method="POST" action="/fabricante/create">
+                {% csrf_token %}
+
+                <div class="row">
+                    <h5 for="Fabricante" class="col-md-2">Fabricante</h5>
+                    <input value="{{fabricante.Fabricante}}" name="Fabricante">
+                </div>
+
+                <div class="row">
+                    <button type="submit" class="btn btn-danger col-md-2 mt-3 mr-2">
+                        <i class="fa fa-check"></i> Salvar
+                    </button>
+                    <a href="{% url 'fabricante' %}" class="btn bg-secondary col-md-2 mt-3">
+                        <i class="fa fa-rotate-left"></i> Retornar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
